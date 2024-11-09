@@ -8,7 +8,7 @@ public class BookFactory {
         } else if (type.equalsIgnoreCase("Literature")) {
             return new LiteratureBook(id, title, author, imgLink);
         } else {
-            return new Book(id, title, author, imgLink);
+            return new Book(id, title, author, imgLink, imgLink);
         }
     }
 }
@@ -16,12 +16,12 @@ public class BookFactory {
 // Классы-наследники для конкретных типов книг
 class ScienceBook extends Book {
     public ScienceBook(int id, String title, String author, String imgLink) {
-        super(id, title, author, imgLink);
+        super(id, title, author, imgLink, imgLink);
     }
 }
 
 class LiteratureBook extends Book {
     public LiteratureBook(int id, String title, String author, String imgLink) {
-        super(id, title, author, imgLink);
+        super(id, title, author, imgLink, imgLink);
     }
 }
