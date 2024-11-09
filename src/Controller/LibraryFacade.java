@@ -2,6 +2,8 @@ package Controller;
 
 import Model.Book;
 import Model.BookService;
+import Validator.BookValidator;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,15 +23,19 @@ public class LibraryFacade {
     }
 
     // Метод для добавления книги
-    public void addBook(String title, String author, String imgLink) {
+    public void addBook(String type, String title, String author, String imgLink) {
         try {
-            // Получаем ID книги
             int id = getNextBookId();
-            // Создаем объект книги
-            Book book = new Book(id, title, author, imgLink);
-            // Создаем команду с книгой
-            AddBookCommand addCommand = new AddBookCommand(bookService, book);
-            addCommand.execute();  // Выполняем команду добавления книги
+            Book book = new Book(id, type, title, author, imgLink);
+
+            // Валидация книги перед добавлением
+            if (BookValidator.isValid(book)) {
+                AddBookCommand addCommand = new AddBookCommand(bookService, book);
+                addCommand.execute();  // Выполняем команду добавления книги
+                logger.info("Book added successfully: " + book);
+            } else {
+                logger.warning("Failed to add book due to validation errors.");
+            }
         } catch (Exception e) {
             logger.severe("Failed to add book: " + e.getMessage());
         }

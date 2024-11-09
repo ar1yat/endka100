@@ -75,8 +75,8 @@ public class LibraryView extends JFrame {
                 String imgLink = imgLinkField.getText();
 
                 // Вызов контроллера для добавления новой книги
-                // Используем getAllBooks().size() + 1 для создания уникального ID
-                bookController.addBook(type, getNextBookId(), title, author, imgLink);
+                // Используем getNextBookId() для создания уникального ID
+                bookController.addBook(getNextBookId(), type, title, author, imgLink);
                 refreshBookList();
             }
         });
@@ -114,7 +114,7 @@ public class LibraryView extends JFrame {
 
     // Метод для обновления списка книг в текстовом поле
     private void refreshBookList() {
-        List<Book> books = bookController.getAllBooks();
+        List<Book> books = (List<Book>) bookController.getAllBooks();
         StringBuilder bookListText = new StringBuilder("Books in Library:\n");
         for (Book book : books) {
             bookListText.append("ID: ").append(book.getId()).append(", ")
