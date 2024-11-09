@@ -19,10 +19,20 @@ public class AddBookCommand implements Command {
     @Override
     public void execute() {
         try {
-            bookService.addBook(book);  // Добавляем книгу в BookService
-            logger.info("Book added: " + book.getTitle());
+            // Попытка добавить книгу через BookService
+            bookService.addBook(book);
+            logger.info("Book added successfully: " + book.getTitle());
+        } catch (IllegalArgumentException e) {
+            // Логируем ошибку, если книга имеет недопустимые данные
+            logger.severe("Invalid book data: " + e.getMessage());
         } catch (Exception e) {
+            // Логируем ошибки общего характера
             logger.severe("Failed to add book: " + e.getMessage());
+            // Опционально, выводим стек ошибок для отладки
+            logger.severe("Exception Stack Trace: ");
+            for (StackTraceElement element : e.getStackTrace()) {
+                logger.severe(element.toString());
+            }
         }
     }
 }
